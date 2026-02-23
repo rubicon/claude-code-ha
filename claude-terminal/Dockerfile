@@ -22,10 +22,12 @@ RUN apk add --no-cache \
     wget \
     tree
 
-# Install Claude Code CLI using native installer (recommended by Anthropic)
-# Creates symlink to /usr/local/bin for script compatibility
-RUN curl -fsSL https://claude.ai/install.sh | bash \
-    && ln -sf /root/.local/bin/claude /usr/local/bin/claude
+# Install Claude Code CLI
+# Try native installer first (recommended by Anthropic, uses Bun runtime).
+# Falls back to npm if native install fails (e.g., CPU lacks AVX support).
+RUN (curl -fsSL https://claude.ai/install.sh | bash \
+    && ln -sf /root/.local/bin/claude /usr/local/bin/claude) \
+    || npm install -g @anthropic-ai/claude-code
 
 # Install Home Assistant CLI (ha command)
 # Download appropriate binary based on build architecture

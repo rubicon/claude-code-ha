@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.0.10
+
+### 🐛 Bug Fix - CPU Compatibility with AVX Fallback
+- **Native installer with automatic npm fallback**: Fixed Docker build failure on CPUs without AVX support (#5)
+  - **How it works**: Tries native installer first (Bun-based, recommended by Anthropic); if it fails (e.g., CPU lacks AVX), automatically falls back to npm installation
+  - **Affected hardware**: Older NUCs, Intel Atom/Celeron processors, some virtualized environments (Proxmox, VirtualBox on older hosts)
+  - **Modern hardware**: No change — continues using the native installer as before
+  - **Result**: Add-on now builds on all CPUs without sacrificing the recommended install method for capable hardware
+
 ## 2.0.9
 
 ### 🐛 Bug Fix - First Connection Drop on Terminal Load
